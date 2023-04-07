@@ -2,15 +2,14 @@ import { isString } from '../'
 
 describe('isString', () => {
   it('should return true for string', () => {
-    expect(isString('')).toBe(true)
-    expect(isString(' ')).toBe(true)
-    expect(isString('foo')).toBe(true)
-    expect(isString('foo bar')).toBe(true)
+    expect(isString('1')).toBe(true)
+    expect(isString(String('2'))).toBe(true)
+    expect(isString(new String('1'))).toBe(true)
+    expect(isString(Object('1'))).toBe(true)
   })
 
   it('should return false for non-string', () => {
     expect(isString(0)).toBe(false)
-    expect(isString(1)).toBe(false)
     expect(isString(-1)).toBe(false)
     expect(isString(NaN)).toBe(false)
     expect(isString(Infinity)).toBe(false)
@@ -22,5 +21,15 @@ describe('isString', () => {
     expect(isString({})).toBe(false)
     expect(isString([])).toBe(false)
     expect(isString(() => {})).toBe(false)
+    expect(
+      isString(
+        (function () {
+          return arguments
+        })()
+      )
+    ).toBe(false)
+    expect(isString(new Date())).toBe(false)
+    expect(isString(/a/)).toBe(false)
+    expect(isString(Symbol(''))).toBe(false)
   })
 })
