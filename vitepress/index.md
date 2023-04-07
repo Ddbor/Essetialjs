@@ -3,23 +3,23 @@
 layout: home
 
 hero:
-  name: "Essetialjs"
-  text: "一个高效、易用且功能丰富的JavaScript工具库"
-  tagline: My great project tagline
+  name: "Essetial"
+  text: "JavaScript工具库"
+  tagline: 高效、易用、无依赖性、功能丰富
   actions:
     - theme: brand
-      text: Markdown Examples
+      text: 开始使用
       link: /markdown-examples
     - theme: alt
-      text: API Examples
+      text: API 文档
       link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 功能设计
+    details: 独特的、实用的功能设计，能够满足开发者的需求
+  - title: 性能优化
+    details: 注重性能优化，能够在处理大量数据时保持高效运行
+  - title: 文档和示例
+    details: 提供完整的文档和示例，使开发者更容易理解和使用库
 ---
 

@@ -7,6 +7,7 @@
   "browser": "dist/essetialjs.esm-bundler.js",
   "module": "dist/essetialjs.esm-bundler.js",
   "main": "index.js",
+  "homepage": "https://ddbor.github.io/Essetialjs/",
   "scripts": {
     "test": "jest",
     "coverage": "pnpm test -- --coverage",
@@ -31,7 +32,6 @@
   "bugs": {
     "url": "https://github.com/Ddbor/Essetialjs/issues"
   },
-  "homepage": "https://github.com/Ddbor/Essetialjs#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.21.4",
     "@babel/preset-typescript": "^7.21.4",
