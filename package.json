@@ -1,0 +1,65 @@
+{
+  "name": "essetialjs",
+  "version": "1.0.0",
+  "description": "一个高效、易用且功能丰富的JavaScript工具库",
+  "packageManager": "pnpm@8.1.1",
+  "typings": "dist/essetialjs.d.ts",
+  "browser": "dist/essetialjs.esm-bundler.js",
+  "module": "dist/essetialjs.esm-bundler.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "coverage": "pnpm test -- --coverage",
+    "ci": "pnpm lint-staged && pnpm coverage",
+    "build": "rollup --config --bundleConfigAsCjs",
+    "prepublishOnly": "npm run build",
+    "docs:dev": "vitepress dev vitepress",
+    "docs:build": "vitepress build vitepress",
+    "docs:preview": "vitepress preview vitepress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Ddbor/Essetialjs.git"
+  },
+  "keywords": [
+    "javescript",
+    "utilities",
+    "essetial"
+  ],
+  "author": "ddbor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ddbor/Essetialjs/issues"
+  },
+  "homepage": "https://github.com/Ddbor/Essetialjs#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.21.4",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/jest": "^29.5.0",
+    "install": "^0.13.0",
+    "jest": "^29.5.0",
+    "lint-staged": "^13.2.0",
+    "prettier": "2.8.7",
+    "rollup": "^3.20.2",
+    "rollup-plugin-clear": "^2.0.7",
+    "simple-git-hooks": "^2.8.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.3",
+    "vitepress": "1.0.0-alpha.65"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm run ci"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
