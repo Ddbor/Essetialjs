@@ -9,10 +9,10 @@ hero:
   actions:
     - theme: brand
       text: 开始使用
-      link: /markdown-examples
+      link: /guide/installation
     - theme: alt
       text: API 文档
-      link: /api-examples
+      link: /api/is/isString
 
 features:
   - title: 功能设计
