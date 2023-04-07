@@ -1,8 +1,33 @@
 import isString from './isString'
-import isArguments from './isArguments'
-import isArrayBuffer from './isArrayBuffer'
 import isArray from './isArray'
 import isBoolean from './isBoolean'
 import isDate from './isDate'
+import isNumber from './isNumber'
+import isFunction from './isFunction'
+import isMap from './isMap'
+import isNull from './isNull'
+import isObject from './isObject'
+import isRegExp from './isRegexp'
+import isSet from './isSet'
+import isSymbol from './isSymbol'
+import isUndefined from './isUndefined'
+import isWeakMap from './isWeakMap'
+import isWeakSet from './isWeakSet'
 
-export { isString, isArguments, isArrayBuffer, isArray, isBoolean, isDate }
+export {
+  isString,
+  isArray,
+  isBoolean,
+  isDate,
+  isNumber,
+  isFunction,
+  isMap,
+  isNull,
+  isObject,
+  isRegExp,
+  isSet,
+  isSymbol,
+  isUndefined,
+  isWeakMap,
+  isWeakSet
+}
