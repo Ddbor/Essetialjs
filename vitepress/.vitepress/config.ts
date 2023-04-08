@@ -17,6 +17,9 @@ export default defineConfig({
   outDir: '../docs',
   title: 'Essetialjs',
   description: '一个高效、易用且功能丰富的JavaScript工具库',
+  head: [
+    ['meta', { name: 'Permissions-Policy', content: 'interest-cohort()' }]
+  ],
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
