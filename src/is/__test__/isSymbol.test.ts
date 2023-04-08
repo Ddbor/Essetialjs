@@ -3,6 +3,7 @@ import { isSymbol } from '../'
 describe('isSymbol', () => {
   test('should return true if value is an Symbol', () => {
     expect(isSymbol(Symbol())).toBeTruthy()
+    expect(isSymbol(Symbol.iterator)).toBeTruthy()
   })
 
   test('should return false if value is not an Symbol', () => {

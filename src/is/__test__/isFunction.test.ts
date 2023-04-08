@@ -3,6 +3,7 @@ import { isFunction } from '../'
 describe('isFunction', () => {
   test('should return true if value is a function', () => {
     expect(isFunction(() => {})).toBeTruthy()
+    expect(isFunction(class {})).toBeTruthy()
   })
 
   test('should return false if value is not a function', () => {
