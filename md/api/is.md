@@ -1,11 +1,9 @@
 ---
 nav: API
 group:
-  order: 0
-order: 0
+  order: 3
+order: 3
 ---
-
-<!-- 参数及返回值是一样的 -->
 
 # 类型判断
 

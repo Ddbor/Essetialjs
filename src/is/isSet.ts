@@ -1,4 +1,4 @@
-import { getTypeTag } from '../tool'
+import { getTypeTag } from '../utils'
 
 /**
  * 判断是否是 Set 对象
