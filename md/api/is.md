@@ -1,8 +1,8 @@
 ---
 nav: API
 group:
-  order: 3
-order: 3
+  order: 4
+order: 4
 ---
 
 # 类型判断

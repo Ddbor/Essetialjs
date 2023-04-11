@@ -6,7 +6,7 @@ group:
   order: 0
 ---
 
-# 使用
+# 使用方式
 
 ## import
 
