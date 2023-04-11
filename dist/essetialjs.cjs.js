@@ -294,6 +294,55 @@ function getValueByPath(obj, path, defaultValue) {
 }
 
 /**
+ * 深拷贝
+ *
+ * 支持Array、Object、Date、RegExp、Map、Set、Number、String、Boolean、null、undefined
+ *
+ * @param obj 要拷贝的对象
+ * @returns 拷贝后的对象
+ * @example
+ * const obj = {
+ *  a: 1,
+ *  b: { c: [1, 2, 3], d: { e: 4 } },
+ *  g: new Date()
+ * }
+ * const clonedObj = deepClone(obj)
+ */
+function deepClone(obj) {
+    if (obj == null ||
+        isWeakMap(obj) ||
+        isWeakSet(obj) ||
+        typeof obj !== 'object') {
+        return obj;
+    }
+    if (isArray(obj) || isObject(obj)) {
+        var newObj = isArray(obj) ? [] : {};
+        for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                newObj[key] = deepClone(obj[key]);
+            }
+        }
+        return newObj;
+    }
+    if (isDate(obj)) {
+        return new Date(obj);
+    }
+    if (isRegExp(obj)) {
+        return new RegExp(obj);
+    }
+    if (isMap(obj)) {
+        return new Map(Array.from(obj, function (_a) {
+            var key = _a[0], val = _a[1];
+            return [key, deepClone(val)];
+        }));
+    }
+    if (isSet(obj)) {
+        return new Set(Array.from(obj, function (val) { return deepClone(val); }));
+    }
+    return obj;
+}
+
+/**
  * 对嵌套数组或对象的集合进行排序，按升序排序
  * @param arr 要排序的数组
  * @param pathOrGetter 用于获取数组元素的路径或函数
@@ -408,6 +457,75 @@ function sortByDesc(arr, pathOrGetter) {
 }
 
 /**
+ * 计算笛卡尔积
+ * @param arr 二维数组
+ * @returns 笛卡尔积
+ * @example
+ * cartesianProduct([[1, 2], [3, 4]]) // [[1, 3], [1, 4], [2, 3], [2, 4]]
+ * cartesianProduct([['a', 'b'], [1, 2], [true, false]]) // [['a', 1, true], ['a', 1, false], ['a', 2, true], ['a', 2, false], ['b', 1, true], ['b', 1, false], ['b', 2, true], ['b', 2, false]]
+ */
+function cartesianProduct(arr) {
+    if (!isArray(arr)) {
+        throw new TypeError('Expected an array');
+    }
+    if (arr.some(function (item) { return !isArray(item); })) {
+        throw new TypeError('Each item in the array should be an array');
+    }
+    var result = [];
+    var n = arr.length;
+    // 指向每个数组中当前元素的指针
+    var pointers = new Array(n).fill(0);
+    while (true) {
+        // 生成一个元组
+        var tuple = new Array(n);
+        // 将每个数组中的当前元素放入元组中
+        for (var i = 0; i < n; i++) {
+            tuple[i] = arr[i][pointers[i]];
+        }
+        // 将元组放入结果中
+        result.push(tuple);
+        var k = n - 1;
+        // 如果指针已经指向了数组的最后一个元素，则将指针指向数组的第一个元素
+        // 并将指针向前移动一位
+        // 如果所有的指针都已经指向了数组的最后一个元素，则跳出循环
+        while (k >= 0 && pointers[k] === arr[k].length - 1) {
+            pointers[k] = 0;
+            k--;
+        }
+        if (k < 0) {
+            break;
+        }
+        // 将指针指向的数组的下一个元素
+        pointers[k]++;
+    }
+    return result;
+}
+
+/**
+ * 将数组分割成多个 size 长度的区块，并将这些区块组成一个新数组。如果数组无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
+ * @param array 要处理的数组
+ * @param size  每个区块的长度
+ * @returns 返回一个包含分割区块的新数组
+ * @example
+ * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0) // => [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+ * chunk([1, 2, 3], 1) // => [[1], [2], [3]]
+ * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2) // => [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+ */
+function chunk(array, size) {
+    var length = !isArray(array) ? 0 : array.length;
+    if (!length || size < 1) {
+        return [array];
+    }
+    var index = 0;
+    var resIndex = 0;
+    var result = new Array(Math.ceil(length / size));
+    while (index < length) {
+        result[resIndex++] = array.slice(index, (index += size));
+    }
+    return result;
+}
+
+/**
  * 默认的比较函数，用于比较数字和字符串
  * 返回 -1 表示 a < b
  * 返回 0 表示 a = b
@@ -512,6 +630,68 @@ function greaterThanOrEqual(a, b) {
     return greaterThan(a, b) || equal(a, b);
 }
 
+/**
+ * 生成一个min-max之间的随机数
+ * @param min 最小值
+ * @param max 最大值
+ * @returns 返回一个min-max之间的随机数
+ * @example
+ * random(1, 5)
+ * // => 3
+ */
+function random(min, max) {
+    // Math.random包含0，不包含1，所以要加1
+    // 先生成一个0-1的随机数，再乘以max-min+1，再加上min，就是一个min-max的随机数
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+/**
+ * 从数组中随机取出指定个数的元素
+ * @param array 数组
+ * @param size 取出的元素个数，如果size大于数组长度，返回原数组，如果size小于等于0，返回空数组
+ * @returns 返回一个新数组
+ * @example
+ * randomInArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5)
+ * // => [ 5, 10, 9, 8, 7 ]
+ *
+ * randomInArray([1, 2, 3], 4)
+ * // => [1, 2, 3]
+ *
+ * randomInArray([1, 2, 3], 0)
+ * // => []
+ */
+function randomInArray(array, size) {
+    var _a;
+    if (size === void 0) { size = 1; }
+    // 如果size小于等于0，返回空数组
+    if (size <= 0)
+        return [];
+    // 如果size大于数组长度，返回原数组
+    if (size >= array.length)
+        return array;
+    var result = [];
+    // 克隆数组，避免影响原数组
+    var clone = array.slice(0);
+    for (var i = 0; i < size; i++) {
+        var randomIndex = random(0, clone.length - 1);
+        result.push(clone[randomIndex]);
+        // 交换位置，将已经取出的元素放到数组末尾，然后再将数组长度减一
+        // 不会影响随机性
+        // 不用splice，因为splice会对数组进行重排，会影响性能
+        if (randomIndex !== clone.length - 1) {
+            _a = [
+                clone[clone.length - 1],
+                clone[randomIndex]
+            ], clone[randomIndex] = _a[0], clone[clone.length - 1] = _a[1];
+        }
+        clone.length--;
+    }
+    return result;
+}
+
+exports.cartesianProduct = cartesianProduct;
+exports.chunk = chunk;
+exports.deepClone = deepClone;
 exports.defaultCompareFunction = defaultCompareFunction;
 exports.equal = equal;
 exports.getValueByPath = getValueByPath;
@@ -534,5 +714,7 @@ exports.isWeakMap = isWeakMap;
 exports.isWeakSet = isWeakSet;
 exports.lessThan = lessThan;
 exports.lessThanOrEqual = lessThanOrEqual;
+exports.random = random;
+exports.randomInArray = randomInArray;
 exports.sortByAsc = sortByAsc;
 exports.sortByDesc = sortByDesc;

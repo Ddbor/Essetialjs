@@ -19,7 +19,7 @@ function randomInArray(array: any[], size: number = 1): any[] {
   // 如果size小于等于0，返回空数组
   if (size <= 0) return []
   // 如果size大于数组长度，返回原数组
-  if (size >= array.length) return array
+  if (size > array.length) return array
 
   const result = []
   // 克隆数组，避免影响原数组

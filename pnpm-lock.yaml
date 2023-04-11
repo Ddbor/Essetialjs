@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  essetialjs:
+    specifier: ^1.1.2
+    version: 1.1.2
+
 devDependencies:
   '@babel/preset-env':
     specifier: ^7.21.4
@@ -5973,6 +5978,10 @@ packages:
     dependencies:
       estraverse: 5.3.0
     dev: true
+
+  /essetialjs@1.1.2:
+    resolution: {integrity: sha512-yYYKrB3CHQUViqL05On1M6Waj9dyPRQwbncxlW32P2EkN+23sly/PxAPex5WMrUTCq6V0eqQySofodGZXLXcYg==}
+    dev: false
 
   /estraverse@4.3.0:
     resolution: {integrity: sha512-39nnKffWz8xN1BU/2c79n9nB9HDzo0niYUqx6xyqUnyoAnQyyWpOTdZEeiCch8BBu515t4wp9ZmgVfVhn9EBpw==}

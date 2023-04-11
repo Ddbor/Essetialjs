@@ -14,5 +14,7 @@ describe('randomInArray', () => {
     expect(randomInArray(array, 0)).toEqual([])
     // 测试默认值
     expect(randomInArray(array).length).toBe(1)
+    // 当随机值等于数组长度
+    expect(randomInArray([1, 2, 3], 3).length).toBe(3)
   })
 })
