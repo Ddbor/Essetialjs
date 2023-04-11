@@ -1,5 +1,6 @@
-import { isArray } from '../is'
-import { mergeSortDescArrays } from '../utils'
+import { isArray, isFunction } from '../is'
+import { getValueByPath } from '../object'
+import { parsePathToArray } from '../utils'
 
 /**
  * 对嵌套数组或对象的集合进行排序，按倒序排序
@@ -28,6 +29,8 @@ import { mergeSortDescArrays } from '../utils'
 
   sortByDesc(testArr, (item) => item.id) // => res
 
+  sortByDesc(testArr, ['info', 'name', 0]) // => res
+
  */
 function sortByDesc(
   arr: any[],
@@ -37,13 +40,33 @@ function sortByDesc(
     return arr
   }
 
-  const middleIndex = Math.floor(arr.length / 2)
+  if (!isFunction(pathOrGetter)) {
+    const pathArr = parsePathToArray(pathOrGetter)
+    pathOrGetter = (item: any) => getValueByPath(item, pathArr)
+  }
 
-  return mergeSortDescArrays(
-    sortByDesc(arr.slice(0, middleIndex), pathOrGetter),
-    sortByDesc(arr.slice(middleIndex, arr.length), pathOrGetter),
-    pathOrGetter
-  )
+  return ([] as any[]).concat(arr).sort((a, b) => {
+    const valueA = pathOrGetter(a)
+    const valueB = pathOrGetter(b)
+
+    if (valueA == null) {
+      return 1
+    }
+
+    if (valueB == null) {
+      return -1
+    }
+
+    if (valueA < valueB) {
+      return 1
+    }
+
+    if (valueA > valueB) {
+      return -1
+    }
+
+    return 0
+  })
 }
 
 export default sortByDesc

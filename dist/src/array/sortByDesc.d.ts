@@ -25,6 +25,8 @@
 
   sortByDesc(testArr, (item) => item.id) // => res
 
+  sortByDesc(testArr, ['info', 'name', 0]) // => res
+
  */
 declare function sortByDesc(arr: any[], pathOrGetter: any | ((item: any) => any)): any[];
 export default sortByDesc;

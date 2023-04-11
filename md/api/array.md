@@ -26,11 +26,13 @@ const testArr = [
   { id: 4, info: { name: ['d'] } }
 ]
 
-sortByDesc(testArr, 'id') // => res
+sortByAsc(testArr, 'id') // => res
 
-sortByDesc(testArr, 'info.name[0]') // => res
+sortByAsc(testArr, 'info.name[0]') // => res
 
-sortByDesc(testArr, (item) => item.id) // => res
+sortByAsc(testArr, (item) => item.id) // => res
+
+sortByAsc(testArr, ['info', 'name', 0]) // => res
 ```
 
 | 参数  | 说明       | 类型  | 默认值 |
@@ -66,6 +68,8 @@ sortByDesc(testArr, 'id') // => res
 sortByDesc(testArr, 'info.name[0]') // => res
 
 sortByDesc(testArr, (item) => item.id) // => res
+
+sortByDesc(testArr, ['info', 'name', 0]) // => res
 ```
 
 | 参数  | 说明       | 类型  | 默认值 |

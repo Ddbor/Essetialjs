@@ -1,4 +1,4 @@
-import { getTypeTag } from '../utils'
+import getTypeTag from '../utils/getTypeTag'
 
 /**
  * 判断是否为字符串

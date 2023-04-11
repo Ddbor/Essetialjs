@@ -1,5 +1,6 @@
-import { isArray } from '../is'
-import { mergeSortAscArrays } from '../utils'
+import { isArray, isFunction } from '../is'
+import { getValueByPath } from '../object'
+import { parsePathToArray } from '../utils'
 
 /**
  * 对嵌套数组或对象的集合进行排序，按升序排序
@@ -22,11 +23,13 @@ import { mergeSortAscArrays } from '../utils'
     { id: 4, info: { name: ['d'] } }
   ]
 
-  sortByDesc(testArr, 'id') // => res
+  sortByAsc(testArr, 'id') // => res
 
-  sortByDesc(testArr, 'info.name[0]') // => res
+  sortByAsc(testArr, 'info.name[0]') // => res
 
-  sortByDesc(testArr, (item) => item.id) // => res
+  sortByAsc(testArr, (item) => item.id) // => res
+
+  sortByAsc(testArr, ['info', 'name', 0]) // => res
 
  */
 function sortByAsc(
@@ -37,13 +40,33 @@ function sortByAsc(
     return arr
   }
 
-  const middleIndex = Math.floor(arr.length / 2)
+  if (!isFunction(pathOrGetter)) {
+    const pathArr = parsePathToArray(pathOrGetter)
+    pathOrGetter = (item: any) => getValueByPath(item, pathArr)
+  }
 
-  return mergeSortAscArrays(
-    sortByAsc(arr.slice(0, middleIndex), pathOrGetter),
-    sortByAsc(arr.slice(middleIndex, arr.length), pathOrGetter),
-    pathOrGetter
-  )
+  return ([] as any[]).concat(arr).sort((a, b) => {
+    const valueA = pathOrGetter(a)
+    const valueB = pathOrGetter(b)
+
+    if (valueA == null) {
+      return 1
+    }
+
+    if (valueB == null) {
+      return -1
+    }
+
+    if (valueA < valueB) {
+      return -1
+    }
+
+    if (valueA > valueB) {
+      return 1
+    }
+
+    return 0
+  })
 }
 
 export default sortByAsc

@@ -1,4 +1,5 @@
-import { isArray, isString } from '../is'
+import isString from '../is/isString'
+import isArray from '../is/isArray'
 
 const replacePattern = /^\[|\]$/g
 const replacePattern2 = /\.\[|\]\.|\[|\]/g

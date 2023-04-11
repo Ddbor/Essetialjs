@@ -12,11 +12,13 @@ order: 1
 根据路径获取对象的属性值
 
 ```javascript
-isArray([1, 2, 3]) // => true
+getValueByPath({ a: { b: 1 } }, 'a.b') // => 1
 
-isArray('123') // => false
+getValueByPath({ a: { b: 1 } }, ['a', 'b']) // => 1
 
-isArray(123) // => false
+getValueByPath({ a: { b: 1 } }, 'a.c', 2) // => 2
+
+getValueByPath({ 'a': [{ 'b': { 'c': 3 } }] }, 'a[0].b.c') // => 3
 ```
 
 | 参数  | 说明       | 类型  | 默认值 |

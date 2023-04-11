@@ -19,11 +19,13 @@
     { id: 4, info: { name: ['d'] } }
   ]
 
-  sortByDesc(testArr, 'id') // => res
+  sortByAsc(testArr, 'id') // => res
 
-  sortByDesc(testArr, 'info.name[0]') // => res
+  sortByAsc(testArr, 'info.name[0]') // => res
 
-  sortByDesc(testArr, (item) => item.id) // => res
+  sortByAsc(testArr, (item) => item.id) // => res
+
+  sortByAsc(testArr, ['info', 'name', 0]) // => res
 
  */
 declare function sortByAsc(arr: any[], pathOrGetter: any | ((item: any) => any)): any[];
