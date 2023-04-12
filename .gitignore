@@ -8,3 +8,4 @@ cache
 demo
 .dumi/tmp
 .dumi/tmp-production
+commitlint.md

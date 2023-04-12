@@ -20,18 +20,6 @@ describe('cartesianProduct', () => {
     ])
   })
 
-  // 如果不是数组，则抛出异常
-  it('should throw an error if the given argument is not an array', () => {
-    // @ts-ignore
-    expect(() => cartesianProduct('abc')).toThrow(TypeError)
-  })
-
-  // 如果有一项不是数组，则抛出异常
-  it('should throw an error if the given argument contains a non-array item', () => {
-    // @ts-ignore
-    expect(() => cartesianProduct([['a', 'b'], 1])).toThrow(TypeError)
-  })
-
   it('should throw an error if the given argument contains arrays of different lengths', () => {
     expect(cartesianProduct([['a', 'b'], [1]])).toEqual([
       ['a', 1],

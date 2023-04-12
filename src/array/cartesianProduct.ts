@@ -1,5 +1,3 @@
-import isArray from '../is/isArray'
-
 /**
  * 计算笛卡尔积
  * @param arr 二维数组
@@ -9,14 +7,6 @@ import isArray from '../is/isArray'
  * cartesianProduct([['a', 'b'], [1, 2], [true, false]]) // [['a', 1, true], ['a', 1, false], ['a', 2, true], ['a', 2, false], ['b', 1, true], ['b', 1, false], ['b', 2, true], ['b', 2, false]]
  */
 function cartesianProduct(arr: any[][]) {
-  if (!isArray(arr)) {
-    throw new TypeError('Expected an array')
-  }
-
-  if (arr.some((item) => !isArray(item))) {
-    throw new TypeError('Each item in the array should be an array')
-  }
-
   const result = []
   const n = arr.length
   // 指向每个数组中当前元素的指针
