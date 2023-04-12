@@ -667,7 +667,7 @@ function randomInArray(array, size) {
     if (size <= 0)
         return [];
     // 如果size大于数组长度，返回原数组
-    if (size >= array.length)
+    if (size > array.length)
         return array;
     var result = [];
     // 克隆数组，避免影响原数组

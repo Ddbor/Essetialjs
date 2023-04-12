@@ -1,6 +1,6 @@
 {
   "name": "essetialjs",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "一个高效、易用且功能丰富的JavaScript工具库",
   "packageManager": "pnpm@8.1.1",
   "typings": "dist/essetialjs.d.ts",
@@ -45,7 +45,6 @@
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/jest": "^29.5.0",
     "dumi": "^2.1.19",
-    "essetialjs": "^1.1.2",
     "install": "^0.13.0",
     "jest": "^29.5.0",
     "lint-staged": "^13.2.0",

@@ -6,6 +6,25 @@
 </head>
 <body>
 <div id="root"></div>
-<script src="/Essetialjs/umi.322d8369.js"></script>
+<script src="/Essetialjs/umi.65a1fe52.js"></script>
+<script>
+    const insertVersion = function(){
+      const dom = document.createElement('span');
+      dom.innerHTML = 'v1.1.5';
+      dom.style.marginRight = '15px';
+      dom.style.color = '#666';
+      dom.style.fontSize = '14px';
+      dom.style.letterSpacing = '1.5px';
+      const search = document.querySelector('.dumi-default-search-bar');
+      if(search){
+        search.parentNode.insertBefore(dom, search.nextSibling);
+      }else{
+        setTimeout(()=>{
+          insertVersion();
+        }, 1000)
+      }
+    }
+    insertVersion();
+  </script>
 
 </body></html>

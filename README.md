@@ -10,6 +10,8 @@ _新功能正在开发中..._
 
 [文档地址](https://ddbor.github.io/Essetialjs/)
 
+[更新日志](https://github.com/Ddbor/Essetialjs/releases)
+
 ## 安装
 
 ***NPM***
