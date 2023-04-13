@@ -347,12 +347,15 @@
     }
 
     /**
-     * 对嵌套数组或对象的集合进行排序，按升序排序
+     * 对数组进行排序，按升序排序
      * @param arr 要排序的数组
-     * @param pathOrGetter 用于获取数组元素的路径或函数
+     * @param pathOrGetter 用于获取数组元素的路径或函数，如果不传，则按数组元素的值进行排序
      * @returns 返回排序后的数组，不会改变原数组
      * @example
      
+      sortByAsc([2, 3, 1, 4])
+      // => [1, 2, 3, 4]
+
       const res = [
         { id: 1, info: { name: ['a'] } },
         { id: 2, info: { name: ['b'] } },
@@ -377,6 +380,7 @@
 
      */
     function sortByAsc(arr, pathOrGetter) {
+        if (pathOrGetter === void 0) { pathOrGetter = function (item) { return item; }; }
         if (!isArray(arr) || arr.length <= 1) {
             return arr;
         }
@@ -404,11 +408,14 @@
     }
 
     /**
-     * 对嵌套数组或对象的集合进行排序，按倒序排序
+     * 对数组进行排序，按倒序排序
      * @param arr 要排序的数组
-     * @param pathOrGetter 用于获取数组元素的路径或函数
+     * @param pathOrGetter 用于获取数组元素的路径或函数，如果不传，则按数组元素的值进行排序
      * @returns 返回排序后的数组，不会改变原数组
      * @example
+
+      sortByDesc([2, 3, 1, 4])
+      // => [4, 3, 2, 1]
 
       const res = [
         { id: 4, info: { name: ['d'] } },
@@ -434,6 +441,7 @@
 
      */
     function sortByDesc(arr, pathOrGetter) {
+        if (pathOrGetter === void 0) { pathOrGetter = function (item) { return item; }; }
         if (!isArray(arr) || arr.length <= 1) {
             return arr;
         }
@@ -469,12 +477,6 @@
      * cartesianProduct([['a', 'b'], [1, 2], [true, false]]) // [['a', 1, true], ['a', 1, false], ['a', 2, true], ['a', 2, false], ['b', 1, true], ['b', 1, false], ['b', 2, true], ['b', 2, false]]
      */
     function cartesianProduct(arr) {
-        if (!isArray(arr)) {
-            throw new TypeError('Expected an array');
-        }
-        if (arr.some(function (item) { return !isArray(item); })) {
-            throw new TypeError('Each item in the array should be an array');
-        }
         var result = [];
         var n = arr.length;
         // 指向每个数组中当前元素的指针
@@ -525,6 +527,128 @@
         var result = new Array(Math.ceil(length / size));
         while (index < length) {
             result[resIndex++] = array.slice(index, (index += size));
+        }
+        return result;
+    }
+
+    /**
+     * 数组扁平化
+     * @param arr
+     * @param depth 指定扁平化的深度，默认为无限深度
+     * @returns
+     * @example
+     * flatten([1, [2, [3, [4]], 5]]) // [1, 2, 3, 4, 5]
+     * flatten([1, [2, [3, [4]], 5]], 2) // [1, 2, 3, [4], 5]
+     */
+    function flatten(arr, depth) {
+        if (depth === void 0) { depth = Infinity; }
+        var result = [];
+        // 使用栈来模拟递归，避免爆栈，同时记录当前递归的深度，避免超过指定的深度
+        var track = arr.map(function (item) { return ({ data: item, d: 0 }); });
+        var _loop_1 = function () {
+            // 从栈中取出最后一个元素
+            // pop()方法比unshift()快
+            // 因为pop()方法只需要修改数组的length属性，而unshift()方法需要移动数组中的元素
+            var _a = track.pop(), data = _a.data, d = _a.d;
+            if (isArray(data) && d < depth) {
+                track.push.apply(track, data.map(function (item) { return ({ data: item, d: d + 1 }); }));
+            }
+            else {
+                result.push(data);
+            }
+        };
+        while (track.length) {
+            _loop_1();
+        }
+        return result.reverse();
+    }
+
+    /**
+     * 生成一个min-max之间的随机数
+     * @param min 最小值
+     * @param max 最大值
+     * @returns 返回一个min-max之间的随机数
+     * @example
+     * random(1, 5)
+     * // => 3
+     */
+    function random(min, max) {
+        // Math.random包含0，不包含1，所以要加1
+        // 先生成一个0-1的随机数，再乘以max-min+1，再加上min，就是一个min-max的随机数
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    /**
+     * 从数组中随机取出指定个数的元素
+     * @param array 数组
+     * @param size 取出的元素个数，如果size大于数组长度，返回原数组，如果size小于等于0，返回空数组
+     * @returns 返回一个新数组
+     * @example
+     * randomInArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5)
+     * // => [ 5, 10, 9, 8, 7 ]
+     *
+     * randomInArray([1, 2, 3], 4)
+     * // => [1, 2, 3]
+     *
+     * randomInArray([1, 2, 3], 0)
+     * // => []
+     *
+     * randomInArray([{a: 1}, {a: 2}, {a: 3}], 2)
+     * // => [{a: 2}, {a: 3}]
+     */
+    function randomInArray(array, size) {
+        var _a;
+        if (size === void 0) { size = 1; }
+        // 如果size小于等于0，返回空数组
+        if (size <= 0)
+            return [];
+        // 如果size大于数组长度，返回原数组
+        if (size > array.length)
+            return array;
+        var result = [];
+        // 克隆数组，避免影响原数组
+        var clone = array.slice(0);
+        for (var i = 0; i < size; i++) {
+            var randomIndex = random(0, clone.length - 1);
+            result.push(clone[randomIndex]);
+            // 交换位置，将已经取出的元素放到数组末尾，然后再将数组长度减一
+            // 不会影响随机性
+            // 不用splice，因为splice会对数组进行重排，会影响性能
+            if (randomIndex !== clone.length - 1) {
+                _a = [
+                    clone[clone.length - 1],
+                    clone[randomIndex]
+                ], clone[randomIndex] = _a[0], clone[clone.length - 1] = _a[1];
+            }
+            clone.length--;
+        }
+        return result;
+    }
+
+    /**
+     * 打乱数组，返回一个新数组
+     * @param arr
+     * @returns
+     * @example
+     * shuffle([1, 2, 3, 4, 5])
+     * // [2, 4, 1, 5, 3]
+     *
+     * shuffle([{a: 1}, {a: 2}, {a: 3}])
+     * // [{a: 2}, {a: 3}, {a: 1}]
+     */
+    function shuffle(arr) {
+        return randomInArray(arr, arr.length);
+    }
+
+    function unique(arr, pathOrGetter) {
+        var result = [];
+        var track = new Set();
+        for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
+            var item = arr_1[_i];
+            if (!track.has(item)) {
+                result.push(item);
+                track.add(item);
+            }
         }
         return result;
     }
@@ -634,70 +758,12 @@
         return greaterThan(a, b) || equal(a, b);
     }
 
-    /**
-     * 生成一个min-max之间的随机数
-     * @param min 最小值
-     * @param max 最大值
-     * @returns 返回一个min-max之间的随机数
-     * @example
-     * random(1, 5)
-     * // => 3
-     */
-    function random(min, max) {
-        // Math.random包含0，不包含1，所以要加1
-        // 先生成一个0-1的随机数，再乘以max-min+1，再加上min，就是一个min-max的随机数
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    /**
-     * 从数组中随机取出指定个数的元素
-     * @param array 数组
-     * @param size 取出的元素个数，如果size大于数组长度，返回原数组，如果size小于等于0，返回空数组
-     * @returns 返回一个新数组
-     * @example
-     * randomInArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5)
-     * // => [ 5, 10, 9, 8, 7 ]
-     *
-     * randomInArray([1, 2, 3], 4)
-     * // => [1, 2, 3]
-     *
-     * randomInArray([1, 2, 3], 0)
-     * // => []
-     */
-    function randomInArray(array, size) {
-        var _a;
-        if (size === void 0) { size = 1; }
-        // 如果size小于等于0，返回空数组
-        if (size <= 0)
-            return [];
-        // 如果size大于数组长度，返回原数组
-        if (size > array.length)
-            return array;
-        var result = [];
-        // 克隆数组，避免影响原数组
-        var clone = array.slice(0);
-        for (var i = 0; i < size; i++) {
-            var randomIndex = random(0, clone.length - 1);
-            result.push(clone[randomIndex]);
-            // 交换位置，将已经取出的元素放到数组末尾，然后再将数组长度减一
-            // 不会影响随机性
-            // 不用splice，因为splice会对数组进行重排，会影响性能
-            if (randomIndex !== clone.length - 1) {
-                _a = [
-                    clone[clone.length - 1],
-                    clone[randomIndex]
-                ], clone[randomIndex] = _a[0], clone[clone.length - 1] = _a[1];
-            }
-            clone.length--;
-        }
-        return result;
-    }
-
     exports.cartesianProduct = cartesianProduct;
     exports.chunk = chunk;
     exports.deepClone = deepClone;
     exports.defaultCompareFunction = defaultCompareFunction;
     exports.equal = equal;
+    exports.flatten = flatten;
     exports.getValueByPath = getValueByPath;
     exports.greaterThan = greaterThan;
     exports.greaterThanOrEqual = greaterThanOrEqual;
@@ -720,7 +786,9 @@
     exports.lessThanOrEqual = lessThanOrEqual;
     exports.random = random;
     exports.randomInArray = randomInArray;
+    exports.shuffle = shuffle;
     exports.sortByAsc = sortByAsc;
     exports.sortByDesc = sortByDesc;
+    exports.unique = unique;
 
 }));

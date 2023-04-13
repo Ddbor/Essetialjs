@@ -12,6 +12,9 @@
  *
  * randomInArray([1, 2, 3], 0)
  * // => []
+ *
+ * randomInArray([{a: 1}, {a: 2}, {a: 3}], 2)
+ * // => [{a: 2}, {a: 3}]
  */
 declare function randomInArray(array: any[], size?: number): any[];
 export default randomInArray;

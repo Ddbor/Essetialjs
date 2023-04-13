@@ -1,6 +1,5 @@
-import { isArray, isFunction } from '../is'
-import { getValueByPath } from '../object'
-import { parsePathToArray } from '../utils'
+import { isArray } from '../is'
+import getPathOrGetter from '../utils/getPathOrGetter'
 
 /**
  * 对数组进行排序，按倒序排序
@@ -45,10 +44,7 @@ function sortByDesc(
     return arr
   }
 
-  if (!isFunction(pathOrGetter)) {
-    const pathArr = parsePathToArray(pathOrGetter)
-    pathOrGetter = (item: any) => getValueByPath(item, pathArr)
-  }
+  pathOrGetter = getPathOrGetter(pathOrGetter)
 
   return ([] as any[]).concat(arr).sort((a, b) => {
     const valueA = (pathOrGetter as Function)(a)
