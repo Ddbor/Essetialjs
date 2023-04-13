@@ -5,6 +5,8 @@ import chunk from './chunk'
 import flatten from './flatten'
 import shuffle from './shuffle'
 import unique from './unique'
+import findIndex from './findIndex'
+import findLastIndex from './findLastIndex'
 
 export {
   sortByAsc,
@@ -13,5 +15,7 @@ export {
   chunk,
   flatten,
   shuffle,
-  unique
+  unique,
+  findIndex,
+  findLastIndex
 }
