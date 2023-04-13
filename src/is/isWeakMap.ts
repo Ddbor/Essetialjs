@@ -8,7 +8,7 @@ import { getTypeTag } from '../utils'
  * isWeakMap(new WeakMap()) // => true
  * isWeakMap(new Map()) // => false
  */
-function isWeakMap(value: any) {
+function isWeakMap<T>(value: T): boolean {
   return getTypeTag(value) === '[object WeakMap]'
 }
 

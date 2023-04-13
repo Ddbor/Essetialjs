@@ -12,7 +12,7 @@ import { getTypeTag } from '../utils'
  * isBoolean(1) // => false
  * isBoolean('true') // => false
  */
-function isBoolean(value: any) {
+function isBoolean<T>(value: T): boolean {
   return typeof value === 'boolean' || getTypeTag(value) === '[object Boolean]'
 }
 

@@ -10,7 +10,7 @@ import { getTypeTag } from '../utils'
  * isMap(new Set()) // => false
  * isMap(new WeakSet()) // => false
  */
-function isMap(value: any) {
+function isMap<T>(value: T): boolean {
   return getTypeTag(value) === '[object Map]'
 }
 

@@ -10,7 +10,7 @@ import { getTypeTag } from '../utils'
  * isSymbol('abc') // => false
  * isSymbol(1) // => false
  */
-function isSymbol(value: any) {
+function isSymbol<T>(value: T): boolean {
   return typeof value === 'symbol' || getTypeTag(value) === '[object Symbol]'
 }
 

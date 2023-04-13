@@ -13,7 +13,7 @@ import defaultCompareFunction from './defaultCompareFunction'
  * greaterThan('a', 'b') // false
  * greaterThan('b', 'a') // true
  */
-function greaterThan(a: number | string, b: number | string) {
+function greaterThan<T>(a: T, b: T) {
   return defaultCompareFunction(a, b) > 0
 }
 

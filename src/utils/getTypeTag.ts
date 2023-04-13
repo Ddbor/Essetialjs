@@ -5,7 +5,7 @@ const toString = Object.prototype.toString
  * @param value 要检查的值
  * @returns 返回类型标签
  */
-function getTypeTag(value: any) {
+function getTypeTag<T>(value: T) {
   return value == null
     ? value === undefined
       ? '[object Undefined]'

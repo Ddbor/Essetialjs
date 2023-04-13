@@ -10,7 +10,7 @@
  * isFunction(new Date()) // => false
  *
  */
-function isFunction(value: any) {
+function isFunction<T>(value: T): boolean {
   return typeof value === 'function'
 }
 

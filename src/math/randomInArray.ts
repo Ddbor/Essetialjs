@@ -18,7 +18,7 @@ import random from './random'
  * randomInArray([{a: 1}, {a: 2}, {a: 3}], 2)
  * // => [{a: 2}, {a: 3}]
  */
-function randomInArray(array: any[], size: number = 1): any[] {
+function randomInArray<T>(array: T[], size: number = 1): T[] {
   // 如果size小于等于0，返回空数组
   if (size <= 0) return []
   // 如果size大于数组长度，返回原数组

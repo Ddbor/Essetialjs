@@ -13,7 +13,7 @@ import { parsePathToArray } from '../utils'
  * getValueByPath({ a: { b: 1 } }, 'a.c', 2) // => 2
  * getValueByPath({ 'a': [{ 'b': { 'c': 3 } }] }, 'a[0].b.c') // => 3
  */
-function getValueByPath(obj: any, path: any, defaultValue?: any) {
+function getValueByPath(obj: any, path: string | any[], defaultValue?: any) {
   if (obj == null) {
     return undefined
   }

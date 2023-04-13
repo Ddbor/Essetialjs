@@ -7,12 +7,14 @@ import parsePathToArray from './parsePathToArray'
  * @param pathOrGetter 路径或者函数
  * @returns 返回函数
  */
-function getPathOrGetter(pathOrGetter: string | any[] | ((item: any) => any)) {
+function getPathOrGetter<T>(
+  pathOrGetter: string | any[] | ((item: T) => any)
+): (item: T) => any {
   if (!isFunction(pathOrGetter)) {
     const pathArr = parsePathToArray(pathOrGetter)
-    return (item: any) => getValueByPath(item, pathArr)
+    return (item: T) => getValueByPath(item, pathArr)
   }
-  return pathOrGetter
+  return pathOrGetter as (item: T) => any
 }
 
 export default getPathOrGetter

@@ -22,40 +22,55 @@ import { isObject } from '../is'
  * }
  * const clonedObj = deepClone(obj)
  */
-function deepClone(obj: any): any {
+function deepClone<
+  T extends
+    | Record<any, any>
+    | any[]
+    | Date
+    | RegExp
+    | Map<any, any>
+    | Set<any>
+    | number
+    | string
+    | boolean
+    | null
+    | undefined
+>(obj: T): T {
   if (
     obj == null ||
     isWeakMap(obj) ||
     isWeakSet(obj) ||
     typeof obj !== 'object'
   ) {
-    return obj
+    return obj as T
   }
 
   if (isArray(obj) || isObject(obj)) {
-    const newObj: any = isArray(obj) ? [] : {}
+    const newObj = isArray(obj) ? [] : ({} as Record<any, any>)
     for (let key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        newObj[key] = deepClone(obj[key])
+        newObj[key] = deepClone((obj as any)[key])
       }
     }
-    return newObj
+    return newObj as T
   }
 
   if (isDate(obj)) {
-    return new Date(obj)
+    return new Date(obj as Date) as T
   }
 
   if (isRegExp(obj)) {
-    return new RegExp(obj)
+    return new RegExp(obj as RegExp) as T
   }
 
   if (isMap(obj)) {
-    return new Map(Array.from(obj, ([key, val]) => [key, deepClone(val)]))
+    return new Map(
+      Array.from(obj as Map<any, any>, ([key, val]) => [key, deepClone(val)])
+    ) as T
   }
 
   if (isSet(obj)) {
-    return new Set(Array.from(obj, (val) => deepClone(val)))
+    return new Set(Array.from(obj as Set<any>, (val) => deepClone(val))) as T
   }
 
   return obj

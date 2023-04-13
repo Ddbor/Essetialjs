@@ -34,21 +34,19 @@ import getPathOrGetter from '../utils/getPathOrGetter'
   sortByAsc(testArr, ['info', 'name', 0]) // => res
 
  */
-function sortByAsc(
-  arr: any[],
-  pathOrGetter: string | any[] | ((item: any) => any) = (
-    item: number | string
-  ) => item
-): any[] {
+function sortByAsc<T>(
+  arr: T[],
+  pathOrGetter: string | ((item: T) => any) | string[] = (item: T) => item
+): T[] {
   if (!isArray(arr) || arr.length <= 1) {
     return arr
   }
 
-  pathOrGetter = getPathOrGetter(pathOrGetter)
+  const getter = getPathOrGetter(pathOrGetter)
 
-  return ([] as any[]).concat(arr).sort((a, b) => {
-    const valueA = (pathOrGetter as Function)(a)
-    const valueB = (pathOrGetter as Function)(b)
+  return ([] as T[]).concat(arr).sort((a, b) => {
+    const valueA = getter(a)
+    const valueB = getter(b)
 
     if (valueA == null) {
       return 1

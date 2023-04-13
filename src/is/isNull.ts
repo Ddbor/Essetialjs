@@ -10,7 +10,7 @@
  * isNull(false) // => false
  * isNull(NaN) // => false
  */
-function isNull(value: any) {
+function isNull<T>(value: T): boolean {
   return value === null
 }
 

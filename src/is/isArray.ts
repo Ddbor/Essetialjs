@@ -13,7 +13,7 @@
  * isArray(new Set()) => false
  * isArray(new Map()) => false
  */
-function isArray(value: any): boolean {
+function isArray<T>(value: T): boolean {
   return Array.isArray(value)
 }
 

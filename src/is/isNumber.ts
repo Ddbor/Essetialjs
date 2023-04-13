@@ -13,7 +13,7 @@ import { getTypeTag } from '../utils'
  * isNumber('1') // => false
  * isNumber(true) // => false
  */
-function isNumber(value: any) {
+function isNumber<T>(value: T): boolean {
   return typeof value === 'number' || getTypeTag(value) === '[object Number]'
 }
 

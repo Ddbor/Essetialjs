@@ -10,7 +10,7 @@ import { getTypeTag } from '../utils'
  * isRegExp(new Date()) // => false
  * isRegExp('abc') // => false
  */
-function isRegExp(value: any) {
+function isRegExp<T>(value: T): boolean {
   return getTypeTag(value) === '[object RegExp]'
 }
 

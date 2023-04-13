@@ -21,12 +21,10 @@ import getPathOrGetter from '../utils/getPathOrGetter'
  * // => [{ a: 1, b: 'b' }, { a: 2 }]
  *
  */
-function unique(
-  arr: any[],
-  pathOrGetter: string | any[] | ((item: any) => any) = (
-    item: number | string
-  ) => item
-) {
+function unique<T>(
+  arr: T[],
+  pathOrGetter: string | ((item: T) => any) | string[] = (item: T) => item
+): T[] {
   if (!isArray(arr) || arr.length <= 1) {
     return arr
   }
@@ -34,10 +32,10 @@ function unique(
   // 存储重复的key
   const duplicateKeys: any = {}
 
-  pathOrGetter = getPathOrGetter(pathOrGetter)
+  const getter = getPathOrGetter(pathOrGetter)
 
   return arr.filter((item: any) => {
-    const key = (pathOrGetter as Function)(item)
+    const key = getter(item)
     if (!duplicateKeys[key]) {
       duplicateKeys[key] = true
       return true

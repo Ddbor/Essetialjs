@@ -6,7 +6,7 @@
  * isUndefined(undefined) // => true
  * isUndefined(null) // => false
  */
-function isUndefined(value: any) {
+function isUndefined<T>(value: T): boolean {
   return value === undefined
 }
 

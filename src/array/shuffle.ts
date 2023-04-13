@@ -11,7 +11,7 @@ import { randomInArray } from '../math'
  * shuffle([{a: 1}, {a: 2}, {a: 3}])
  * // [{a: 2}, {a: 3}, {a: 1}]
  */
-function shuffle(arr: any[]) {
+function shuffle<T>(arr: T[]): T[] {
   return randomInArray(arr, arr.length)
 }
 

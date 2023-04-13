@@ -14,7 +14,7 @@
  * defaultCompareFunction('a', 'b') // -1
  * defaultCompareFunction('b', 'a') // 1
  */
-function defaultCompareFunction(a: number | string, b: number | string) {
+function defaultCompareFunction<T>(a: T, b: T) {
   return a === b ? 0 : a < b ? -1 : 1
 }
 

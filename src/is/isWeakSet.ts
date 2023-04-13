@@ -8,7 +8,7 @@ import { getTypeTag } from '../utils'
  * isWeakSet(new WeakSet()) // => true
  * isWeakSet(new Set()) // => false
  */
-function isWeakSet(value: any) {
+function isWeakSet<T>(value: T): boolean {
   return getTypeTag(value) === '[object WeakSet]'
 }
 

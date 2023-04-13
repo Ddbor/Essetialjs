@@ -14,7 +14,7 @@ import greaterThan from './greaterThan'
  * greaterThanOrEqual('a', 'b') // false
  * greaterThanOrEqual('b', 'a') // true
  */
-function greaterThanOrEqual(a: number | string, b: number | string) {
+function greaterThanOrEqual<T>(a: T, b: T) {
   return greaterThan(a, b) || equal(a, b)
 }
 

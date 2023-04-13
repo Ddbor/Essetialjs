@@ -14,7 +14,7 @@ import lessThan from './lessThan'
  * lessThanOrEqual('a', 'b') // true
  * lessThanOrEqual('b', 'a') // false
  */
-function lessThanOrEqual(a: number | string, b: number | string) {
+function lessThanOrEqual<T>(a: T, b: T): boolean {
   return lessThan(a, b) || equal(a, b)
 }
 

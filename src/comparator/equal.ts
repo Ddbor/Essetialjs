@@ -13,7 +13,7 @@ import defaultCompareFunction from './defaultCompareFunction'
  * equal('a', 'b') // false
  * equal('b', 'a') // false
  */
-function equal(a: number | string, b: number | string): boolean {
+function equal<T>(a: T, b: T): boolean {
   return defaultCompareFunction(a, b) === 0
 }
 

@@ -11,7 +11,7 @@ import getTypeTag from '../utils/getTypeTag'
  * isString(true) // => false
  * isString(null) // => false
  */
-function isString(value: any) {
+function isString<T>(value: T): boolean {
   return typeof value === 'string' || getTypeTag(value) === '[object String]'
 }
 

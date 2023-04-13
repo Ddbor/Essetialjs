@@ -6,18 +6,24 @@ import isArray from '../is/isArray'
  * @param size  每个区块的长度
  * @returns 返回一个包含分割区块的新数组
  * @example
- * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0) // => [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
- * chunk([1, 2, 3], 1) // => [[1], [2], [3]]
- * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2) // => [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+ *
+ * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0)
+ * // => [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+ *
+ * chunk([1, 2, 3], 1)
+ * // => [[1], [2], [3]]
+ *
+ * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2)
+ * // => [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
  */
-function chunk(array: any[], size: number) {
+function chunk<T>(array: T[], size: number) {
   const length = !isArray(array) ? 0 : array.length
   if (!length || size < 1) {
     return [array]
   }
   let index = 0
   let resIndex = 0
-  const result = new Array(Math.ceil(length / size))
+  const result: T[][] = new Array(Math.ceil(length / size))
 
   while (index < length) {
     result[resIndex++] = array.slice(index, (index += size))

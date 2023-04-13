@@ -16,8 +16,11 @@ import { getTypeTag } from '../utils'
  * isObject(new WeakMap()) // => false
  * isObject(new WeakSet()) // => false
  */
-function isObject(value: any) {
-  return getTypeTag(value) === '[object Object]' && value.constructor === Object
+function isObject<T>(value: T): boolean {
+  return (
+    getTypeTag(value) === '[object Object]' &&
+    (value as Object).constructor === Object
+  )
 }
 
 export default isObject

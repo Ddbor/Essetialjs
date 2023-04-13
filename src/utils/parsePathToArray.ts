@@ -11,22 +11,30 @@ const pattern = /[^\.]+(\.{2,}[^\.]+)*|[^\.]+/g
  * @returns 返回转换后的数组
  * @example
  * parsePathToArray('a.b.c') // => ['a', 'b', 'c']
- * parsePathToArray('[0]a.b.c[1]') // => ['0', 'a', 'b', 'c', '1']
- * parsePathToArray(['a', 'b', 'c']) // => ['a', 'b', 'c']
- * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
- * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
- * parsePathToArray(Symbol('symbolKey')) // => [Symbol]
- * parsePathToArray(true) // => [true]
- * parsePathToArray(false) // => [false]
- * parsePathToArray('') // => ['']
- * parsePathToArray(' ') // => [' ']
  *
+ * parsePathToArray('[0]a.b.c[1]') // => ['0', 'a', 'b', 'c', '1']
+ *
+ * parsePathToArray(['a', 'b', 'c']) // => ['a', 'b', 'c']
+ *
+ * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
+ *
+ * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
+ *
+ * parsePathToArray(Symbol('symbolKey')) // => [Symbol]
+ *
+ * parsePathToArray(true) // => [true]
+ *
+ * parsePathToArray(false) // => [false]
+ *
+ * parsePathToArray('') // => ['']
+ *
+ * parsePathToArray(' ') // => [' ']
  */
-function parsePathToArray(path: any) {
+function parsePathToArray(path: string | any[]): any[] {
   return isArray(path)
     ? path
     : isString(path)
-    ? path
+    ? (path as any)
         .replace(replacePattern, '')
         .replace(replacePattern2, '.')
         .match(pattern) || ['']

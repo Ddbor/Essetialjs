@@ -8,7 +8,7 @@ import { getTypeTag } from '../utils'
  * isDate(new Date()) // => true
  * isDate('2019-01-01') // => false
  */
-function isDate(value: any) {
+function isDate<T>(value: T): boolean {
   return getTypeTag(value) === '[object Date]'
 }
 

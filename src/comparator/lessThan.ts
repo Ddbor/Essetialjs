@@ -13,7 +13,7 @@ import defaultCompareFunction from './defaultCompareFunction'
  * lessThan('a', 'b') // true
  * lessThan('b', 'a') // false
  */
-function lessThan(a: number | string, b: number | string): boolean {
+function lessThan<T>(a: T, b: T): boolean {
   return defaultCompareFunction(a, b) < 0
 }
 
