@@ -37,6 +37,9 @@ randomInArray([1, 2, 3], 4)
 
 randomInArray([1, 2, 3], 0)
 // => []
+
+randomInArray([{a: 1}, {a: 2}, {a: 3}], 2)
+// => [{a: 2}, {a: 3}]
 ```
 
 | 参数  | 说明       | 类型  | 默认值 |
