@@ -60,4 +60,10 @@ describe('sortByAsc', () => {
       { id: 1, name: 'b' }
     ])
   })
+
+  // 基本类型
+  it('should return Asc', () => {
+    const result = sortByAsc([2, 3, 1, 4])
+    expect(result).toEqual([1, 2, 3, 4])
+  })
 })

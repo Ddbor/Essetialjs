@@ -61,4 +61,12 @@ describe('sortByDesc', () => {
       { id: 1, name: 'b' }
     ])
   })
+
+  it('should sort an array in descending order', () => {
+    const res = [3, 2, 1]
+    const testArr = [2, 3, 1]
+
+    const result = sortByDesc(testArr)
+    expect(result).toEqual(res)
+  })
 })
