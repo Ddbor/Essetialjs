@@ -7,6 +7,8 @@ import shuffle from './shuffle'
 import unique from './unique'
 import findIndex from './findIndex'
 import findLastIndex from './findLastIndex'
+import tail from './tail'
+import head from './head'
 
 export {
   sortByAsc,
@@ -17,5 +19,7 @@ export {
   shuffle,
   unique,
   findIndex,
-  findLastIndex
+  findLastIndex,
+  tail,
+  head
 }
