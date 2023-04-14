@@ -6,5 +6,5 @@
  * isWeakSet(new WeakSet()) // => true
  * isWeakSet(new Set()) // => false
  */
-declare function isWeakSet(value: any): boolean;
+declare function isWeakSet<T>(value: T): boolean;
 export default isWeakSet;

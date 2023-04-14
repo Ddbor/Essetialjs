@@ -11,5 +11,5 @@
  * isNumber('1') // => false
  * isNumber(true) // => false
  */
-declare function isNumber(value: any): boolean;
+declare function isNumber<T>(value: T): boolean;
 export default isNumber;

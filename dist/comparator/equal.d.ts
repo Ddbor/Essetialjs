@@ -11,5 +11,5 @@
  * equal('a', 'b') // false
  * equal('b', 'a') // false
  */
-declare function equal(a: number | string, b: number | string): boolean;
+declare function equal<T>(a: T, b: T): boolean;
 export default equal;

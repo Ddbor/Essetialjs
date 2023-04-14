@@ -6,5 +6,5 @@
  * isDate(new Date()) // => true
  * isDate('2019-01-01') // => false
  */
-declare function isDate(value: any): boolean;
+declare function isDate<T>(value: T): boolean;
 export default isDate;

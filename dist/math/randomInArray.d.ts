@@ -16,5 +16,5 @@
  * randomInArray([{a: 1}, {a: 2}, {a: 3}], 2)
  * // => [{a: 2}, {a: 3}]
  */
-declare function randomInArray(array: any[], size?: number): any[];
+declare function randomInArray<T>(array: T[], size?: number): T[];
 export default randomInArray;

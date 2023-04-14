@@ -13,5 +13,5 @@
  * isArray(new Set()) => false
  * isArray(new Map()) => false
  */
-declare function isArray(value: any): boolean;
+declare function isArray<T>(value: T): boolean;
 export default isArray;

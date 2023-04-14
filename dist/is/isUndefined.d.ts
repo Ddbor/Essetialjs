@@ -6,5 +6,5 @@
  * isUndefined(undefined) // => true
  * isUndefined(null) // => false
  */
-declare function isUndefined(value: any): boolean;
+declare function isUndefined<T>(value: T): boolean;
 export default isUndefined;

@@ -1,18 +1,19 @@
 /**
- * 判断是否是对象
+ * 判断是否是对象，包括数组、函数、Map、Set、WeakMap、WeakSet、Date、RegExp、Object、函数
  * @param value 要判断的值
  * @returns 返回一个布尔值
  * @example
  * isObject({}) // => true
- * isObject([]) // => false
- * isObject(null) // => false
- * isObject(undefined) // => false
- * isObject(new Date()) // => false
- * isObject(() => {}) // => false
- * isObject(new Map()) // => false
- * isObject(new Set()) // => false
- * isObject(new WeakMap()) // => false
- * isObject(new WeakSet()) // => false
+ * isObject([]) // => true
+ * isObject(() => {}) // => true
+ * isObject(new Map()) // => true
+ * isObject(new Set()) // => true
+ * isObject(new WeakMap()) // => true
+ * isObject(new WeakSet()) // => true
+ * isObject(new Date()) // => true
+ * isObject(new RegExp('')) // => true
+ * function fn() {}
+ * isObject(fn) // => true
  */
-declare function isObject(value: any): boolean;
+declare function isObject<T>(value: T): boolean;
 export default isObject;

@@ -8,5 +8,5 @@
  * isRegExp(new Date()) // => false
  * isRegExp('abc') // => false
  */
-declare function isRegExp(value: any): boolean;
+declare function isRegExp<T>(value: T): boolean;
 export default isRegExp;

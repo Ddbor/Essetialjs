@@ -55,16 +55,24 @@ var pattern = /[^\.]+(\.{2,}[^\.]+)*|[^\.]+/g;
  * @returns 返回转换后的数组
  * @example
  * parsePathToArray('a.b.c') // => ['a', 'b', 'c']
- * parsePathToArray('[0]a.b.c[1]') // => ['0', 'a', 'b', 'c', '1']
- * parsePathToArray(['a', 'b', 'c']) // => ['a', 'b', 'c']
- * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
- * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
- * parsePathToArray(Symbol('symbolKey')) // => [Symbol]
- * parsePathToArray(true) // => [true]
- * parsePathToArray(false) // => [false]
- * parsePathToArray('') // => ['']
- * parsePathToArray(' ') // => [' ']
  *
+ * parsePathToArray('[0]a.b.c[1]') // => ['0', 'a', 'b', 'c', '1']
+ *
+ * parsePathToArray(['a', 'b', 'c']) // => ['a', 'b', 'c']
+ *
+ * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
+ *
+ * parsePathToArray('a[0].b[1].c') // => ['a', '0', 'b', '1', 'c']
+ *
+ * parsePathToArray(Symbol('symbolKey')) // => [Symbol]
+ *
+ * parsePathToArray(true) // => [true]
+ *
+ * parsePathToArray(false) // => [false]
+ *
+ * parsePathToArray('') // => ['']
+ *
+ * parsePathToArray(' ') // => [' ']
  */
 function parsePathToArray(path) {
     return isArray(path)
@@ -75,6 +83,72 @@ function parsePathToArray(path) {
                 .replace(replacePattern2, '.')
                 .match(pattern) || ['']
             : [path];
+}
+
+/**
+ * 判断是否为函数
+ * @param value 要检查的值
+ * @returns 返回布尔值
+ * @example
+ * isFunction(() => {}) // => true
+ * isFunction(function() {}) // => true
+ * isFunction(class {}) // => true
+ * isFunction(new Function()) // => true
+ * isFunction(new Date()) // => false
+ *
+ */
+function isFunction(value) {
+    return typeof value === 'function';
+}
+
+/**
+ * 判断是否为undefined
+ * @param value 要判断的值
+ * @returns 返回一个布尔值
+ * @example
+ * isUndefined(undefined) // => true
+ * isUndefined(null) // => false
+ */
+function isUndefined(value) {
+    return value === undefined;
+}
+
+/**
+ * 根据路径获取对象的属性值
+ * @param obj 要查询的对象
+ * @param path 获取属性的路径
+ * @param defaultValue 为 `undefined` 时返回的值
+ * @returns 返回解析值
+ * @example
+ * getValueByPath({ a: { b: 1 } }, 'a.b') // => 1
+ * getValueByPath({ a: { b: 1 } }, ['a', 'b']) // => 1
+ * getValueByPath({ a: { b: 1 } }, 'a.c', 2) // => 2
+ * getValueByPath({ 'a': [{ 'b': { 'c': 3 } }] }, 'a[0].b.c') // => 3
+ */
+function getValueByPath(obj, path, defaultValue) {
+    if (obj == null) {
+        return undefined;
+    }
+    path = parsePathToArray(path);
+    var length = path.length;
+    var index = 0;
+    while (obj != null && index < length) {
+        obj = obj[path[index++]];
+    }
+    return index !== length || isUndefined(obj) ? defaultValue : obj;
+}
+
+/**
+ * 获取路径或者函数
+ * @param pathOrGetter 路径或者函数
+ * @returns 返回函数
+ */
+function getPathOrGetter(pathOrGetter) {
+    if (!isFunction(pathOrGetter)) {
+        var pathArr_1 = parsePathToArray(pathOrGetter);
+        return function (item) { return getValueByPath(item, pathArr_1); };
+    }
+    return pathOrGetter;
 }
 
 /**
@@ -123,22 +197,6 @@ function isNumber(value) {
 }
 
 /**
- * 判断是否为函数
- * @param value 要检查的值
- * @returns 返回布尔值
- * @example
- * isFunction(() => {}) // => true
- * isFunction(function() {}) // => true
- * isFunction(class {}) // => true
- * isFunction(new Function()) // => true
- * isFunction(new Date()) // => false
- *
- */
-function isFunction(value) {
-    return typeof value === 'function';
-}
-
-/**
  * 判断是否为 Map 对象
  * @param value 要判断的值
  * @returns 返回一个布尔值
@@ -169,23 +227,25 @@ function isNull(value) {
 }
 
 /**
- * 判断是否是对象
+ * 判断是否是对象，包括数组、函数、Map、Set、WeakMap、WeakSet、Date、RegExp、Object、函数
  * @param value 要判断的值
  * @returns 返回一个布尔值
  * @example
  * isObject({}) // => true
- * isObject([]) // => false
- * isObject(null) // => false
- * isObject(undefined) // => false
- * isObject(new Date()) // => false
- * isObject(() => {}) // => false
- * isObject(new Map()) // => false
- * isObject(new Set()) // => false
- * isObject(new WeakMap()) // => false
- * isObject(new WeakSet()) // => false
+ * isObject([]) // => true
+ * isObject(() => {}) // => true
+ * isObject(new Map()) // => true
+ * isObject(new Set()) // => true
+ * isObject(new WeakMap()) // => true
+ * isObject(new WeakSet()) // => true
+ * isObject(new Date()) // => true
+ * isObject(new RegExp('')) // => true
+ * function fn() {}
+ * isObject(fn) // => true
  */
 function isObject(value) {
-    return getTypeTag(value) === '[object Object]' && value.constructor === Object;
+    var type = typeof value;
+    return value != null && (type === 'object' || type === 'function');
 }
 
 /**
@@ -214,18 +274,6 @@ function isSet(value) {
  */
 function isSymbol(value) {
     return typeof value === 'symbol' || getTypeTag(value) === '[object Symbol]';
-}
-
-/**
- * 判断是否为undefined
- * @param value 要判断的值
- * @returns 返回一个布尔值
- * @example
- * isUndefined(undefined) // => true
- * isUndefined(null) // => false
- */
-function isUndefined(value) {
-    return value === undefined;
 }
 
 /**
@@ -267,77 +315,24 @@ function isRegExp(value) {
 }
 
 /**
- * 根据路径获取对象的属性值
- * @param obj 要查询的对象
- * @param path 获取属性的路径
- * @param defaultValue 为 `undefined` 时返回的值
- * @returns 返回解析值
+ * 判断是否是Object对象
+ * @param value 要判断的值
+ * @returns 返回一个布尔值
  * @example
- * getValueByPath({ a: { b: 1 } }, 'a.b') // => 1
- * getValueByPath({ a: { b: 1 } }, ['a', 'b']) // => 1
- * getValueByPath({ a: { b: 1 } }, 'a.c', 2) // => 2
- * getValueByPath({ 'a': [{ 'b': { 'c': 3 } }] }, 'a[0].b.c') // => 3
+ * isJson({}) // => true
+ * isJson([]) // => false
+ * isJson(null) // => false
+ * isJson(undefined) // => false
+ * isJson(new Date()) // => false
+ * isJson(() => {}) // => false
+ * isJson(new Map()) // => false
+ * isJson(new Set()) // => false
+ * isJson(new WeakMap()) // => false
+ * isJson(new WeakSet()) // => false
  */
-function getValueByPath(obj, path, defaultValue) {
-    if (obj == null) {
-        return undefined;
-    }
-    path = parsePathToArray(path);
-    var length = path.length;
-    var index = 0;
-    while (obj != null && index < length) {
-        obj = obj[path[index++]];
-    }
-    return index !== length || isUndefined(obj) ? defaultValue : obj;
-}
-
-/**
- * 深拷贝
- *
- * 支持Array、Object、Date、RegExp、Map、Set、Number、String、Boolean、null、undefined
- *
- * @param obj 要拷贝的对象
- * @returns 拷贝后的对象
- * @example
- * const obj = {
- *  a: 1,
- *  b: { c: [1, 2, 3], d: { e: 4 } },
- *  g: new Date()
- * }
- * const clonedObj = deepClone(obj)
- */
-function deepClone(obj) {
-    if (obj == null ||
-        isWeakMap(obj) ||
-        isWeakSet(obj) ||
-        typeof obj !== 'object') {
-        return obj;
-    }
-    if (isArray(obj) || isObject(obj)) {
-        var newObj = isArray(obj) ? [] : {};
-        for (var key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                newObj[key] = deepClone(obj[key]);
-            }
-        }
-        return newObj;
-    }
-    if (isDate(obj)) {
-        return new Date(obj);
-    }
-    if (isRegExp(obj)) {
-        return new RegExp(obj);
-    }
-    if (isMap(obj)) {
-        return new Map(Array.from(obj, function (_a) {
-            var key = _a[0], val = _a[1];
-            return [key, deepClone(val)];
-        }));
-    }
-    if (isSet(obj)) {
-        return new Set(Array.from(obj, function (val) { return deepClone(val); }));
-    }
-    return obj;
+function isJson(value) {
+    return (getTypeTag(value) === '[object Object]' &&
+        value.constructor === Object);
 }
 
 /**
@@ -378,13 +373,10 @@ function sortByAsc(arr, pathOrGetter) {
     if (!isArray(arr) || arr.length <= 1) {
         return arr;
     }
-    if (!isFunction(pathOrGetter)) {
-        var pathArr_1 = parsePathToArray(pathOrGetter);
-        pathOrGetter = function (item) { return getValueByPath(item, pathArr_1); };
-    }
+    var getter = getPathOrGetter(pathOrGetter);
     return [].concat(arr).sort(function (a, b) {
-        var valueA = pathOrGetter(a);
-        var valueB = pathOrGetter(b);
+        var valueA = getter(a);
+        var valueB = getter(b);
         if (valueA == null) {
             return 1;
         }
@@ -439,13 +431,10 @@ function sortByDesc(arr, pathOrGetter) {
     if (!isArray(arr) || arr.length <= 1) {
         return arr;
     }
-    if (!isFunction(pathOrGetter)) {
-        var pathArr_1 = parsePathToArray(pathOrGetter);
-        pathOrGetter = function (item) { return getValueByPath(item, pathArr_1); };
-    }
+    var getter = getPathOrGetter(pathOrGetter);
     return [].concat(arr).sort(function (a, b) {
-        var valueA = pathOrGetter(a);
-        var valueB = pathOrGetter(b);
+        var valueA = getter(a);
+        var valueB = getter(b);
         if (valueA == null) {
             return 1;
         }
@@ -467,8 +456,12 @@ function sortByDesc(arr, pathOrGetter) {
  * @param arr 二维数组
  * @returns 笛卡尔积
  * @example
- * cartesianProduct([[1, 2], [3, 4]]) // [[1, 3], [1, 4], [2, 3], [2, 4]]
- * cartesianProduct([['a', 'b'], [1, 2], [true, false]]) // [['a', 1, true], ['a', 1, false], ['a', 2, true], ['a', 2, false], ['b', 1, true], ['b', 1, false], ['b', 2, true], ['b', 2, false]]
+ *
+ * cartesianProduct([[1, 2], [3, 4]])
+ * // [[1, 3], [1, 4], [2, 3], [2, 4]]
+ *
+ * cartesianProduct([['a', 'b'], [1, 2], [true, false]])
+ * // [['a', 1, true], ['a', 1, false], ['a', 2, true], ['a', 2, false], ['b', 1, true], ['b', 1, false], ['b', 2, true], ['b', 2, false]]
  */
 function cartesianProduct(arr) {
     var result = [];
@@ -507,9 +500,15 @@ function cartesianProduct(arr) {
  * @param size  每个区块的长度
  * @returns 返回一个包含分割区块的新数组
  * @example
- * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0) // => [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
- * chunk([1, 2, 3], 1) // => [[1], [2], [3]]
- * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2) // => [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+ *
+ * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0)
+ * // => [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+ *
+ * chunk([1, 2, 3], 1)
+ * // => [[1], [2], [3]]
+ *
+ * chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2)
+ * // => [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
  */
 function chunk(array, size) {
     var length = !isArray(array) ? 0 : array.length;
@@ -531,8 +530,12 @@ function chunk(array, size) {
  * @param depth 指定扁平化的深度，默认为无限深度
  * @returns
  * @example
- * flatten([1, [2, [3, [4]], 5]]) // [1, 2, 3, 4, 5]
- * flatten([1, [2, [3, [4]], 5]], 2) // [1, 2, 3, [4], 5]
+ *
+ * flatten([1, [2, [3, [4]], 5]])
+ * // [1, 2, 3, 4, 5]
+ *
+ * flatten([1, [2, [3, [4]], 5]], 2)
+ * // [1, 2, 3, [4], 5]
  */
 function flatten(arr, depth) {
     if (depth === void 0) { depth = Infinity; }
@@ -634,17 +637,120 @@ function shuffle(arr) {
     return randomInArray(arr, arr.length);
 }
 
+/**
+ * 数组去重，只有第一次出现的元素会被保留
+ * @param arr
+ * @param pathOrGetter 在处理对象数组时，可以指定用于确定唯一性的键，如果不传，则按数组元素的值进行去重，如果传入字符串或数组，则按对象的该键的值进行去重，如果传入函数，则按函数的返回值进行去重
+ * @returns 返回去重后的数组，不会改变原数组
+ * @example
+ *
+ * unique([1, 2, 3, 1, 2, 3])
+ * // => [1, 2, 3]
+ *
+ * unique([{ a: 1, b: 'b' }, { a: 1 }, { a: 2 }], 'a')
+ * // => [{ a: 1, b: 'b' }, { a: 2 }]
+ *
+ * unique([{ a: 1 }, { a: 1 }, { a: 2 }], ['a'])
+ * // => [{ a: 1 }, { a: 2 }]
+ *
+ * unique([{ a: 1, b: 'b' }, { a: 1, b: 'b', c: 'c' }, { a: 2 }], (item) => item.a + item.b)
+ * // => [{ a: 1, b: 'b' }, { a: 2 }]
+ *
+ */
 function unique(arr, pathOrGetter) {
-    var result = [];
-    var track = new Set();
-    for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
-        var item = arr_1[_i];
-        if (!track.has(item)) {
-            result.push(item);
-            track.add(item);
-        }
+    if (pathOrGetter === void 0) { pathOrGetter = function (item) { return item; }; }
+    if (!isArray(arr) || arr.length <= 1) {
+        return arr;
     }
-    return result;
+    // 存储重复的key
+    var duplicateKeys = {};
+    var getter = getPathOrGetter(pathOrGetter);
+    return arr.filter(function (item) {
+        var key = getter(item);
+        if (!duplicateKeys[key]) {
+            duplicateKeys[key] = true;
+            return true;
+        }
+        return false;
+    });
+}
+
+/**
+ * 查找数组中符合条件的第一个元素的索引
+ * @param arr 要查找的数组
+ * @param callback 回调函数，返回true时表示找到了符合条件的元素
+ * @returns 返回符合条件的元素的索引，如果没有找到则返回-1
+ * @example
+ * findIndex([1, 2, 3, 4], (item) => item === 3) // 2
+ *
+ * findIndex([1, 2, 3, 4], (item) => item === 5) // -1
+ */
+function findIndex(arr, callback) {
+    var index = -1;
+    var i = 0;
+    while (i < arr.length) {
+        if (callback(arr[i])) {
+            index = i;
+            break;
+        }
+        i++;
+    }
+    return index;
+}
+
+/**
+ * 查找数组中符合条件的最后一个元素的索引
+ * @param arr 要查找的数组
+ * @param callback 回调函数，返回true时表示找到了符合条件的元素
+ * @returns 返回符合条件的元素的索引，如果没有找到则返回-1
+ * @example
+ * findLastIndex([1, 2, 3, 4], (item) => item === 3) // 2
+ *
+ * findLastIndex([1, 2, 3, 4], (item) => item === 5) // -1
+ */
+function findLastIndex(arr, callback) {
+    var index = -1;
+    var i = arr.length - 1;
+    while (i >= 0) {
+        if (callback(arr[i])) {
+            index = i;
+            break;
+        }
+        i--;
+    }
+    return index;
+}
+
+/**
+ * 返回数组的最后一个元素
+ * @param array 数组
+ * @returns 返回数组的最后一个元素
+ * @example
+ *
+ * const arr = [1, 2, 3]
+ * tail(arr) // => 3
+ *
+ * const arr = []
+ * tail(arr) // => undefined
+ */
+function tail(array) {
+    return isArray(array) ? array[array.length - 1] : undefined;
+}
+
+/**
+ * 返回数组的第一个元素
+ * @param array 数组
+ * @returns 返回数组的第一个元素
+ * @example
+ *
+ * const arr = [1, 2, 3]
+ * head(arr) // => 1
+ *
+ * const arr = []
+ * head(arr) // => undefined
+ */
+function head(array) {
+    return isArray(array) ? array[0] : undefined;
 }
 
 /**
@@ -752,4 +858,147 @@ function greaterThanOrEqual(a, b) {
     return greaterThan(a, b) || equal(a, b);
 }
 
-export { cartesianProduct, chunk, deepClone, defaultCompareFunction, equal, flatten, getValueByPath, greaterThan, greaterThanOrEqual, isArray, isBoolean, isDate, isFunction, isMap, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isUndefined, isWeakMap, isWeakSet, lessThan, lessThanOrEqual, random, randomInArray, shuffle, sortByAsc, sortByDesc, unique };
+/**
+ * 创建一个函数，当调用次数大于等于n将触发回调
+ * @param n 调用次数
+ * @param callback 回调
+ * @returns 返回新函数
+ * @example
+ *
+
+  const arr = ['1', '2'];
+
+  const fn = executeAfter(function() {
+    console.log('done');
+  }, arr.length)
+
+  forEach(arr, function() {
+    fn()
+  })
+
+ */
+function executeAfter(callback, n) {
+    if (n === void 0) { n = 0; }
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (--n < 1) {
+            // @ts-ignore
+            return callback.apply(this, args);
+        }
+    };
+}
+
+/**
+ * 深拷贝
+ *
+ * 支持Array、Object、Date、RegExp、Map、Set、Number、String、Boolean、null、undefined
+ *
+ * @param obj 要拷贝的对象
+ * @returns 拷贝后的对象
+ * @example
+ * const obj = {
+ *  a: 1,
+ *  b: { c: [1, 2, 3], d: { e: 4 } },
+ *  g: new Date()
+ * }
+ * const clonedObj = deepClone(obj)
+ */
+function deepClone(obj) {
+    if (obj == null ||
+        isWeakMap(obj) ||
+        isWeakSet(obj) ||
+        typeof obj !== 'object') {
+        return obj;
+    }
+    if (isArray(obj) || isJson(obj)) {
+        var newObj = isArray(obj) ? [] : {};
+        for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                newObj[key] = deepClone(obj[key]);
+            }
+        }
+        return newObj;
+    }
+    if (isDate(obj)) {
+        return new Date(obj);
+    }
+    if (isRegExp(obj)) {
+        return new RegExp(obj);
+    }
+    if (isMap(obj)) {
+        return new Map(Array.from(obj, function (_a) {
+            var key = _a[0], val = _a[1];
+            return [key, deepClone(val)];
+        }));
+    }
+    if (isSet(obj)) {
+        return new Set(Array.from(obj, function (val) { return deepClone(val); }));
+    }
+    return obj;
+}
+
+/**
+ * 去除字符串中所有指定的字符
+ * @param string 要处理的字符串
+ * @param chars 要去除的字符，可以是字符串、正则表达式，如果不指定，则默认去除所有空白字符
+ * @returns 返回处理后的字符串
+ * @example
+ *
+ * trimAll('  abc  123   ')
+ * // => 'abc123'
+ *
+ * trimAll('foo bar foo', 'foo')
+ * // => ' bar '
+ *
+ * trimAll('foo bar foo', ['foo', 'bar'])
+ * // => '  '
+ *
+ * trimAll('foo bar foo', /foo|bar/g)
+ * // => '  '
+ *
+ */
+function trimAll(string, chars) {
+    if (chars === void 0) { chars = ''; }
+    // 如果没有指定 chars 参数，则默认去除所有空白字符
+    if (chars === '' || chars === undefined) {
+        return string.replace(/\s+/g, '');
+    }
+    if (isRegExp(chars)) {
+        return string.replace(chars, '');
+    }
+    var regex = new RegExp(chars, 'g');
+    return string.replace(regex, '');
+}
+
+/**
+ * 去除字符串两端指定的字符
+ * @param string 要处理的字符串
+ * @param chars 要去除的字符，可以是字符串、正则表达式，如果不指定，则默认去除所有空白字符
+ * @returns 返回处理后的字符串
+ * @example
+ *
+ * trim('  abc  123   ')
+ * // => 'abc  123'
+ *
+ * trim('foo bar foo', 'foo')
+ * // => ' bar '
+ *
+ * trim('foo bar foo', /foo|bar/g)
+ * // => '  '
+ */
+function trim(string, chars) {
+    if (chars === void 0) { chars = ''; }
+    // 如果没有指定 chars 参数，则默认去除空白字符
+    if (chars === '' || chars === undefined) {
+        return string.replace(/^\s+|\s+$/g, '');
+    }
+    if (isRegExp(chars)) {
+        return string.replace(chars, '');
+    }
+    return string.replace(new RegExp("^".concat(chars, "+|").concat(chars, "+$"), 'g'), '');
+}
+
+export { cartesianProduct, chunk, deepClone, defaultCompareFunction, equal, executeAfter, findIndex, findLastIndex, flatten, getValueByPath, greaterThan, greaterThanOrEqual, head, isArray, isBoolean, isDate, isFunction, isJson, isMap, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isUndefined, isWeakMap, isWeakSet, lessThan, lessThanOrEqual, random, randomInArray, shuffle, sortByAsc, sortByDesc, tail, trim, trimAll, unique };

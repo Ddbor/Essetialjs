@@ -11,5 +11,5 @@
  * lessThan('a', 'b') // true
  * lessThan('b', 'a') // false
  */
-declare function lessThan(a: number | string, b: number | string): boolean;
+declare function lessThan<T>(a: T, b: T): boolean;
 export default lessThan;

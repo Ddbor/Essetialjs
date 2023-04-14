@@ -9,5 +9,5 @@
  * isString(true) // => false
  * isString(null) // => false
  */
-declare function isString(value: any): boolean;
+declare function isString<T>(value: T): boolean;
 export default isString;

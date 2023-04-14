@@ -9,5 +9,5 @@
  * shuffle([{a: 1}, {a: 2}, {a: 3}])
  * // [{a: 2}, {a: 3}, {a: 1}]
  */
-declare function shuffle(arr: any[]): any[];
+declare function shuffle<T>(arr: T[]): T[];
 export default shuffle;

@@ -31,5 +31,5 @@
   sortByDesc(testArr, ['info', 'name', 0]) // => res
 
  */
-declare function sortByDesc(arr: any[], pathOrGetter?: string | any[] | ((item: any) => any)): any[];
+declare function sortByDesc<T>(arr: T[], pathOrGetter?: string | ((item: T) => any) | string[]): T[];
 export default sortByDesc;

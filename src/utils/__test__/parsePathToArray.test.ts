@@ -24,11 +24,14 @@ describe('parsePathToArray', () => {
 
   it('should return [Symbol]', () => {
     const symbolKey = Symbol('symbolKey')
+    // @ts-ignore
     expect(parsePathToArray(symbolKey)).toEqual([symbolKey])
   })
 
   it('should return [Boolean]', () => {
+    // @ts-ignore
     expect(parsePathToArray(true)).toEqual([true])
+    // @ts-ignore
     expect(parsePathToArray(false)).toEqual([false])
   })
 
@@ -40,14 +43,17 @@ describe('parsePathToArray', () => {
   })
 
   it('should return [Number]', () => {
+    // @ts-ignore
     expect(parsePathToArray(1)).toEqual([1])
   })
 
   it('should return [Null]', () => {
+    // @ts-ignore
     expect(parsePathToArray(null)).toEqual([null])
   })
 
   it('should return [Undefined]', () => {
+    // @ts-ignore
     expect(parsePathToArray(undefined)).toEqual([undefined])
   })
 })

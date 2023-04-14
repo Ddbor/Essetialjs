@@ -10,5 +10,5 @@
  * isFunction(new Date()) // => false
  *
  */
-declare function isFunction(value: any): boolean;
+declare function isFunction<T>(value: T): boolean;
 export default isFunction;

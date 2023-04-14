@@ -25,7 +25,7 @@ describe('sortByDesc', () => {
     const result3 = sortByDesc(testArr, (item: any) => item.id)
     expect(result3).toEqual(res)
 
-    const result4 = sortByDesc(testArr, ['info', 'name', 0])
+    const result4 = sortByDesc(testArr, ['info', 'name', 0] as string[])
     expect(result4).toEqual(res)
 
     // @ts-ignore

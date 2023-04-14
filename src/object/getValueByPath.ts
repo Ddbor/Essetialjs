@@ -1,5 +1,5 @@
-import { isUndefined } from '../is'
-import { parsePathToArray } from '../utils'
+import isUndefined from '../is/isUndefined'
+import parsePathToArray from '../utils/parsePathToArray'
 
 /**
  * 根据路径获取对象的属性值

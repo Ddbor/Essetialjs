@@ -8,5 +8,5 @@
  * isMap(new Set()) // => false
  * isMap(new WeakSet()) // => false
  */
-declare function isMap(value: any): boolean;
+declare function isMap<T>(value: T): boolean;
 export default isMap;

@@ -13,5 +13,5 @@
  * }
  * const clonedObj = deepClone(obj)
  */
-declare function deepClone(obj: any): any;
+declare function deepClone<T extends Record<any, any> | any[] | Date | RegExp | Map<any, any> | Set<any> | number | string | boolean | null | undefined>(obj: T): T;
 export default deepClone;

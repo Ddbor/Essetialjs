@@ -24,7 +24,7 @@ describe('sortByAsc', () => {
     const result3 = sortByAsc(testArr, (item: any) => item.id)
     expect(result3).toEqual(res)
 
-    const result4 = sortByAsc(testArr, ['info', 'name', 0])
+    const result4 = sortByAsc(testArr, ['info', 'name', 0] as string[])
     expect(result4).toEqual(res)
 
     // @ts-ignore

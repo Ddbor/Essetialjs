@@ -10,5 +10,5 @@
  * isBoolean(1) // => false
  * isBoolean('true') // => false
  */
-declare function isBoolean(value: any): boolean;
+declare function isBoolean<T>(value: T): boolean;
 export default isBoolean;

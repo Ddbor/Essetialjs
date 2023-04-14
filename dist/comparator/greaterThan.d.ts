@@ -11,5 +11,5 @@
  * greaterThan('a', 'b') // false
  * greaterThan('b', 'a') // true
  */
-declare function greaterThan(a: number | string, b: number | string): boolean;
+declare function greaterThan<T>(a: T, b: T): boolean;
 export default greaterThan;

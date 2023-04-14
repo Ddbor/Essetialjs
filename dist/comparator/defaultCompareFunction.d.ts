@@ -14,5 +14,5 @@
  * defaultCompareFunction('a', 'b') // -1
  * defaultCompareFunction('b', 'a') // 1
  */
-declare function defaultCompareFunction(a: number | string, b: number | string): 0 | 1 | -1;
+declare function defaultCompareFunction<T>(a: T, b: T): 0 | 1 | -1;
 export default defaultCompareFunction;

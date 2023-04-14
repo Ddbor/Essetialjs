@@ -11,7 +11,7 @@ function getPathOrGetter<T>(
   pathOrGetter: string | any[] | ((item: T) => any)
 ): (item: T) => any {
   if (!isFunction(pathOrGetter)) {
-    const pathArr = parsePathToArray(pathOrGetter)
+    const pathArr = parsePathToArray(pathOrGetter as string | any[])
     return (item: T) => getValueByPath(item, pathArr)
   }
   return pathOrGetter as (item: T) => any

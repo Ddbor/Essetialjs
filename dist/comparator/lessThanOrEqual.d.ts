@@ -11,5 +11,5 @@
  * lessThanOrEqual('a', 'b') // true
  * lessThanOrEqual('b', 'a') // false
  */
-declare function lessThanOrEqual(a: number | string, b: number | string): boolean;
+declare function lessThanOrEqual<T>(a: T, b: T): boolean;
 export default lessThanOrEqual;

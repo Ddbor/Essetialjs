@@ -13,4 +13,5 @@ import isUndefined from './isUndefined';
 import isWeakMap from './isWeakMap';
 import isWeakSet from './isWeakSet';
 import isRegExp from './isRegExp';
-export { isString, isArray, isBoolean, isDate, isNumber, isFunction, isMap, isNull, isObject, isRegExp, isSet, isSymbol, isUndefined, isWeakMap, isWeakSet };
+import isJson from './isJson';
+export { isString, isArray, isBoolean, isDate, isNumber, isFunction, isMap, isNull, isObject, isRegExp, isSet, isSymbol, isUndefined, isWeakMap, isWeakSet, isJson };

@@ -6,5 +6,5 @@
  * isWeakMap(new WeakMap()) // => true
  * isWeakMap(new Map()) // => false
  */
-declare function isWeakMap(value: any): boolean;
+declare function isWeakMap<T>(value: T): boolean;
 export default isWeakMap;

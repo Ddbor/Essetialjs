@@ -8,5 +8,5 @@
  * isSymbol('abc') // => false
  * isSymbol(1) // => false
  */
-declare function isSymbol(value: any): boolean;
+declare function isSymbol<T>(value: T): boolean;
 export default isSymbol;

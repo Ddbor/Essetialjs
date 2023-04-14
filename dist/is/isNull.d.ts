@@ -10,5 +10,5 @@
  * isNull(false) // => false
  * isNull(NaN) // => false
  */
-declare function isNull(value: any): boolean;
+declare function isNull<T>(value: T): boolean;
 export default isNull;
