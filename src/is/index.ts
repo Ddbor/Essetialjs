@@ -13,6 +13,7 @@ import isUndefined from './isUndefined'
 import isWeakMap from './isWeakMap'
 import isWeakSet from './isWeakSet'
 import isRegExp from './isRegExp'
+import isJson from './isJson'
 
 export {
   isString,
@@ -29,5 +30,6 @@ export {
   isSymbol,
   isUndefined,
   isWeakMap,
-  isWeakSet
+  isWeakSet,
+  isJson
 }

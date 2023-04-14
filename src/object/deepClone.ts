@@ -5,7 +5,7 @@ import isMap from '../is/isMap'
 import isSet from '../is/isSet'
 import isWeakMap from '../is/isWeakMap'
 import isWeakSet from '../is/isWeakSet'
-import { isObject } from '../is'
+import isJson from '../is/isJson'
 
 /**
  * 深拷贝
@@ -45,7 +45,7 @@ function deepClone<
     return obj as T
   }
 
-  if (isArray(obj) || isObject(obj)) {
+  if (isArray(obj) || isJson(obj)) {
     const newObj = isArray(obj) ? [] : ({} as Record<any, any>)
     for (let key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {

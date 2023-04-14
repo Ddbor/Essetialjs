@@ -91,6 +91,40 @@ isFunction('function() {}') // => false
 | --------------- | ---------------------------------------------- | --------- |
 | 一个`boolean`值 | 如果 value 是一个数组返回 true，否则返回 false | `boolean` |
 
+## isJson
+
+判断是否是Object对象
+
+```javascript
+isJson({}) // => true
+
+isJson([]) // => false
+
+isJson(null) // => false
+
+isJson(undefined) // => false
+
+isJson(new Date()) // => false
+
+isJson(() => {}) // => false
+
+isJson(new Map()) // => false
+
+isJson(new Set()) // => false
+
+isJson(new WeakMap()) // => false
+
+isJson(new WeakSet()) // => false
+```
+
+| 参数  | 说明       | 类型  | 默认值 |
+| ----- | ---------- | ----- | ------ |
+| value | 要检查的值 | `any` | -      |
+
+| 返回值          | 说明                                           | 类型      |
+| --------------- | ---------------------------------------------- | --------- |
+| 一个`boolean`值 | 如果 value 是一个`Object`对象返回 true，否则返回 false | `boolean` |
+
 ## isMap
 
 判断是否为 Map
@@ -172,23 +206,24 @@ isNumber(true) // => false
 ```javascript
 isObject({}) // => true
 
-isObject([]) // => false
+isObject([]) // => true
 
-isObject(null) // => false
+isObject(() => {}) // => true
 
-isObject(undefined) // => false
+isObject(new Map()) // => true
 
-isObject(new Date()) // => false
+isObject(new Set()) // => true
 
-isObject(() => {}) // => false
+isObject(new WeakMap()) // => true
 
-isObject(new Map()) // => false
+isObject(new WeakSet()) // => true
 
-isObject(new Set()) // => false
+isObject(new Date()) // => true
 
-isObject(new WeakMap()) // => false
+isObject(new RegExp('')) // => true
 
-isObject(new WeakSet()) // => false
+function fn() {}
+isObject(fn) // => true
 ```
 
 | 参数  | 说明       | 类型  | 默认值 |
@@ -197,7 +232,7 @@ isObject(new WeakSet()) // => false
 
 | 返回值          | 说明                                           | 类型      |
 | --------------- | ---------------------------------------------- | --------- |
-| 一个`boolean`值 | 如果 value 是一个数组返回 true，否则返回 false | `boolean` |
+| 一个`boolean`值 | 如果 value 是一个对象返回 true，否则返回 false | `boolean` |
 
 ## isRegExp
 
