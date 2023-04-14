@@ -1,4 +1,4 @@
-import { isBoolean } from '../'
+import { isBoolean } from '..'
 
 describe('isBoolean', () => {
   it('should return true if the value is boolean', () => {

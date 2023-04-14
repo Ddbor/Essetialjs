@@ -1,4 +1,4 @@
-import { isSymbol } from '../'
+import { isSymbol } from '..'
 
 describe('isSymbol', () => {
   test('should return true if value is an Symbol', () => {

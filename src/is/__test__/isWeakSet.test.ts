@@ -1,4 +1,4 @@
-import { isWeakSet } from '../'
+import { isWeakSet } from '..'
 
 describe('isWeakSet', () => {
   test('should return true if value is an WeakSet', () => {

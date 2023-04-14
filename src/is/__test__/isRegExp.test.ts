@@ -1,4 +1,4 @@
-import { isRegExp } from '../'
+import { isRegExp } from '..'
 
 describe('isRegExp', () => {
   test('should return true if value is an RegExp', () => {

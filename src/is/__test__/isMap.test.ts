@@ -1,4 +1,4 @@
-import { isMap } from '../'
+import { isMap } from '..'
 
 describe('isMap', () => {
   test('should return true if value is a Map', () => {

@@ -1,4 +1,4 @@
-import { isSet } from '../'
+import { isSet } from '..'
 
 describe('isSet', () => {
   test('should return true if value is an Set', () => {

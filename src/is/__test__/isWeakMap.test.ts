@@ -1,4 +1,4 @@
-import { isWeakMap } from '../'
+import { isWeakMap } from '..'
 
 describe('isWeakMap', () => {
   test('should return true if value is an WeakMap', () => {

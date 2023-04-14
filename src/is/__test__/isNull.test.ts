@@ -1,4 +1,4 @@
-import { isNull } from '../'
+import { isNull } from '..'
 
 describe('isNull', () => {
   test('should return true if value is null', () => {

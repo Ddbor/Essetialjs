@@ -1,4 +1,4 @@
-import { isFunction } from '../'
+import { isFunction } from '..'
 
 describe('isFunction', () => {
   test('should return true if value is a function', () => {

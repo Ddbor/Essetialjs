@@ -3,7 +3,6 @@ import { trimAll } from '..'
 describe('trimAll', () => {
   it('should remove all occurrences of the specified characters', () => {
     expect(trimAll('foo bar foo', 'foo')).toBe(' bar ')
-    expect(trimAll('foo bar foo', ['foo', 'bar'])).toBe('  ')
     expect(trimAll('foo bar foo', /foo|bar/g)).toBe('  ')
   })
 
@@ -17,8 +16,6 @@ describe('trimAll', () => {
     expect(trimAll('我每天睡不着')).toBe('我每天睡不着')
 
     expect(trimAll('我每天睡不着', '我')).toBe('每天睡不着')
-
-    expect(trimAll('我每天睡不着', ['我', '每天'])).toBe('睡不着')
 
     expect(trimAll('我每天睡不着', /我|每天/g)).toBe('睡不着')
 

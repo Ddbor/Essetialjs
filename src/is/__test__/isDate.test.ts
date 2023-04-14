@@ -1,4 +1,4 @@
-import { isDate } from '../'
+import { isDate } from '..'
 
 describe('isDate', () => {
   it('should return true if the value is date', () => {

@@ -1,4 +1,4 @@
-import { isJson } from '../'
+import { isJson } from '..'
 
 describe('isJson', () => {
   test('should return true if value is an object', () => {
