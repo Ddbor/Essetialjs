@@ -27,7 +27,7 @@ yarn add essetialjs
 ***PNPM***
 
 ```bash
-npm add essetialjs
+pnpm add essetialjs
 ```
 
 ***HTML中引入***
